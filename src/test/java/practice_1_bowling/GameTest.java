@@ -53,10 +53,47 @@ public class GameTest {
     @Test
     public void scoreTestEndGameSpareBonus() {
         Game game = new Game();
-        int[] pins = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1, 5, 1};
+        int[] pins = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1};
         game.roll(pins);
         int actual = game.score();
-        Assert.assertEquals(25, actual);
+        Assert.assertEquals(19, actual);
+    }
+
+    @Test
+    public void rollTestInvalidThrowsNumber() {
+        Game game = new Game();
+        int[] emptyPins = {};
+        game.roll(emptyPins);
+        int actual = game.score();
+        Assert.assertEquals(0, actual);
+
+        int[] pins = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+        game.roll(pins);
+        actual = game.score();
+        Assert.assertEquals(0, actual);
+    }
+
+    @Test
+    public void rollTestInvalidPinScore() {
+        Game game = new Game();
+        int[] lowPins = {-1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1};
+        game.roll(lowPins);
+        int actual = game.score();
+        Assert.assertEquals(0, actual);
+
+        int[] highPins = {11, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1};
+        game.roll(highPins);
+        actual = game.score();
+        Assert.assertEquals(0, actual);
+    }
+
+    @Test
+    public void rollTestInvalidRoundScore() {
+        Game game = new Game();
+        int[] pins = {9, 9, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1};
+        game.roll(pins);
+        int actual = game.score();
+        Assert.assertEquals(0, actual);
     }
 
 }
